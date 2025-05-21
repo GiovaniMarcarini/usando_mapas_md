@@ -13,6 +13,12 @@ class HomePage extends StatefulWidget{
 
 class _HomePageState extends State<HomePage>{
 
+  Position? _localizacaoAtual;
+  final _controller = TextEditingController();
+
+  String get _textoLocalizacao => _localizacaoAtual == null ? '' :
+      'Latitude: ${_localizacaoAtual!.latitude}  |  '
+      'Longetude: ${_localizacaoAtual!.longitude}';
 
   Widget build(BuildContext context){
     return Scaffold(
@@ -26,10 +32,26 @@ class _HomePageState extends State<HomePage>{
       Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
         child: ElevatedButton(
-            onPressed: () {},
-            child: Text('Obter Localização Atual')
+            onPressed: _obterLocalizacaoAtual,
+            child: const Text('Obter Localização Atual')
         ),
-      )
+      ),
+      if (_localizacaoAtual != null)
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            children: [
+              Expanded(
+                  child: Text(_textoLocalizacao)
+              ),
+              ElevatedButton(
+                  onPressed: () {},
+                  child: const Icon(Icons.map)
+              )
+            ],
+          ),
+                
+        )
     ],
   );
 
@@ -45,7 +67,7 @@ class _HomePageState extends State<HomePage>{
       return;
     }
 
-    Position? position = await Geolocator.getCurrentPosition();
+    _localizacaoAtual = await Geolocator.getCurrentPosition();
 
   }
 
