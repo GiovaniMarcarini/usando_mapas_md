@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage>{
   Widget _criarBody() => ListView(
     children: [
       Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
         child: ElevatedButton(
             onPressed: _obterLocalizacaoAtual,
             child: const Text('Obter Localização Atual')
@@ -49,7 +49,21 @@ class _HomePageState extends State<HomePage>{
             ],
           ),
                 
-        )
+        ),
+      Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+        child: TextField(
+          controller: _controller,
+          decoration: InputDecoration(
+            labelText: 'Endereço ou ponto de referência',
+            suffixIcon: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.map),
+              tooltip: 'Abrir no mapa',
+            )
+          ),
+        ),
+      )
     ],
   );
 
