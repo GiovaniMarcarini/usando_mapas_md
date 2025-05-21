@@ -16,9 +16,7 @@ class _HomePageState extends State<HomePage>{
   Position? _localizacaoAtual;
   final _controller = TextEditingController();
 
-  String get _textoLocalizacao => _localizacaoAtual == null ? '' :
-      'Latitude: ${_localizacaoAtual!.latitude}  |  '
-      'Longetude: ${_localizacaoAtual!.longitude}';
+  String get _textoLocalizacao => _localizacaoAtual == null ? '' : 'Latitude: ${_localizacaoAtual!.latitude}  |  Longetude: ${_localizacaoAtual!.longitude}';
 
   Widget build(BuildContext context){
     return Scaffold(
@@ -68,7 +66,9 @@ class _HomePageState extends State<HomePage>{
     }
 
     _localizacaoAtual = await Geolocator.getCurrentPosition();
+    setState(() {
 
+    });
   }
 
   Future<bool> _permissoePermitidas() async{
