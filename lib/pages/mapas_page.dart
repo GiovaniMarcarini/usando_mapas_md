@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +33,35 @@ class _MapasPageState extends State<MapasPage>{
   }
 
   @override
+  void dispose(){
+    _subscription?.cancel();
+    _subscription = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(title: const Text('Mapa Interno')),
-      body: Container()
+      body: GoogleMap(
+        mapType: MapType.normal,
+        markers: {
+          Marker(
+            markerId: MarkerId('1'),
+            position: LatLng(widget.latitude, widget.longetude),
+            infoWindow: const InfoWindow(
+              title: 'Café da praça'
+            )
+          )
+        },
+        initialCameraPosition: CameraPosition(
+            target: LatLng(widget.latitude, widget.longetude)
+        ),
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+        myLocationEnabled: true,
+      )
     );
   }
 
