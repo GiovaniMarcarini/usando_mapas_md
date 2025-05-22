@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:usando_mapas_md/pages/mapas_page.dart';
 
 class HomePage extends StatefulWidget{
 
@@ -47,7 +48,11 @@ class _HomePageState extends State<HomePage>{
               ElevatedButton(
                   onPressed: _abrirNoMapaExternoCoordenadas,
                   child: const Icon(Icons.map)
-              )
+              ),
+              ElevatedButton(
+                  onPressed: _abrirNoMapaInterno,
+                  child: const Icon(Icons.map)
+              ),
             ],
           ),
                 
@@ -74,6 +79,18 @@ class _HomePageState extends State<HomePage>{
       return;
     }
     MapsLauncher.launchQuery(_controller.text);
+  }
+
+  void _abrirNoMapaInterno(){
+    if(_localizacaoAtual == null){
+      return;
+    }
+    Navigator.push(context, MaterialPageRoute(
+        builder: (BuildContext context) => MapasPage(
+            latitude: _localizacaoAtual!.latitude,
+            longetude: _localizacaoAtual!.longitude
+        ),
+    ));
   }
 
   void _abrirNoMapaExternoCoordenadas(){
