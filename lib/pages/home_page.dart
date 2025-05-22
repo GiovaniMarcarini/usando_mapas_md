@@ -3,11 +3,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class HomePage extends StatefulWidget{
 
   const HomePage({Key? key}) : super(key: key);
 
+  @override
   _HomePageState createState() => _HomePageState();
 }
 
@@ -43,7 +45,7 @@ class _HomePageState extends State<HomePage>{
                   child: Text(_textoLocalizacao)
               ),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _abrirNoMapaExternoCoordenadas,
                   child: const Icon(Icons.map)
               )
             ],
@@ -51,13 +53,13 @@ class _HomePageState extends State<HomePage>{
                 
         ),
       Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextField(
           controller: _controller,
           decoration: InputDecoration(
             labelText: 'Endereço ou ponto de referência',
             suffixIcon: IconButton(
-                onPressed: () {},
+                onPressed: _abrirNoMapaExterno,
                 icon: const Icon(Icons.map),
               tooltip: 'Abrir no mapa',
             )
@@ -66,6 +68,23 @@ class _HomePageState extends State<HomePage>{
       )
     ],
   );
+
+  void _abrirNoMapaExterno() {
+    if(_controller.text.trim().isEmpty){
+      return;
+    }
+    MapsLauncher.launchQuery(_controller.text);
+  }
+
+  void _abrirNoMapaExternoCoordenadas(){
+    if(_localizacaoAtual == null){
+      return;
+    }
+    MapsLauncher.launchCoordinates(
+        _localizacaoAtual!.latitude,
+        _localizacaoAtual!.longitude
+    );
+  }
 
   void _obterLocalizacaoAtual() async{
     bool servicoHabilitado = await _servicoHabilitado();
