@@ -38,6 +38,9 @@ dependencies:
   geolocator: ^14.0.0
   maps_launcher: ^3.0.0+1
   google_maps_flutter: ^2.12.2
+  http: ^1.4.0
+  animated_text_kit: ^4.2.3
+
 
 dev_dependencies:
   flutter_test:

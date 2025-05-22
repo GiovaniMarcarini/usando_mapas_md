@@ -52,10 +52,19 @@ class _MapasPageState extends State<MapasPage>{
             infoWindow: const InfoWindow(
               title: 'Café da praça'
             )
+          ),
+          Marker(
+              markerId: MarkerId('2'),
+              position: LatLng(widget.latitude + 1, widget.longetude + 1),
+              infoWindow: const InfoWindow(
+                  title: 'Bar do André'
+              )
           )
         },
         initialCameraPosition: CameraPosition(
-            target: LatLng(widget.latitude, widget.longetude)
+            target: LatLng(widget.latitude, widget.longetude),
+          zoom: 12
+
         ),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);

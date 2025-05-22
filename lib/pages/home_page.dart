@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage>{
 
   Position? _localizacaoAtual;
   final _controller = TextEditingController();
+  final _controllerPontos = TextEditingController();
 
   String get _textoLocalizacao => _localizacaoAtual == null ? '' : 'Latitude: ${_localizacaoAtual!.latitude}  |  Longetude: ${_localizacaoAtual!.longitude}';
 
@@ -67,10 +68,24 @@ class _HomePageState extends State<HomePage>{
                 onPressed: _abrirNoMapaExterno,
                 icon: const Icon(Icons.map),
               tooltip: 'Abrir no mapa',
-            )
+            ),
           ),
         ),
-      )
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: TextField(
+          controller: _controllerPontos,
+          decoration: InputDecoration(
+            labelText: 'Buscar pontos de turismo próximos a:',
+            suffixIcon: IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.psychology_alt_sharp),
+              tooltip: 'USAR IA',
+            ),
+          ),
+        ),
+      ),
     ],
   );
 
