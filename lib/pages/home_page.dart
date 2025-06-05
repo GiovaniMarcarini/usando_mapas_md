@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:usando_mapas_md/pages/mapas_page.dart';
+import 'package:usando_mapas_md/pages/resultado_page.dart';
+
+import '../services/open_router_service.dart';
 
 class HomePage extends StatefulWidget{
 
@@ -59,35 +62,74 @@ class _HomePageState extends State<HomePage>{
                 
         ),
       Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: TextField(
-          controller: _controller,
-          decoration: InputDecoration(
-            labelText: 'Endereço ou ponto de referência',
-            suffixIcon: IconButton(
-                onPressed: _abrirNoMapaExterno,
-                icon: const Icon(Icons.map),
-              tooltip: 'Abrir no mapa',
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: _controller,
+              decoration: const InputDecoration(
+                labelText: 'Digite um endereço ou ponto de referência',
+                border: OutlineInputBorder(),
+              ),
             ),
-          ),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: TextField(
-          controller: _controllerPontos,
-          decoration: InputDecoration(
-            labelText: 'Buscar pontos de turismo próximos a:',
-            suffixIcon: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.psychology_alt_sharp),
-              tooltip: 'USAR IA',
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: _abrirNoMapaExterno,
+                  icon: const Icon(Icons.map),
+                  label: const Text('Abrir no Mapa'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  ),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () => _buscarComIA(context),
+                  icon: const Icon(Icons.psychology_alt_sharp),
+                  label: const Text('Explorar com IA'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  ),
+                ),
+              ],
             ),
-          ),
+          ],
         ),
-      ),
+      )
     ],
   );
+
+  void _buscarComIA(BuildContext context) async {
+    final endereco = _controller.text.trim();
+    if (endereco.isEmpty) {
+      return;
+    }
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Dialog(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+
+    final resultado = await OpenRouterService.buscarPontosTuristicosIA(endereco);
+
+    Navigator.pop(context);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ResultadoPage(texto: resultado),
+      ),
+    );
+  }
 
   void _abrirNoMapaExterno() {
     if(_controller.text.trim().isEmpty){

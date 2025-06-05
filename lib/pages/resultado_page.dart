@@ -1,38 +1,31 @@
-
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
-class ResultadoPage extends StatefulWidget{
+class ResultadoPage extends StatelessWidget {
   final String texto;
 
-  const ResultadoPage({ Key? key, required this.texto}): super(key: key);
-
-  _ResultadoPageState createState() => _ResultadoPageState();
-
-}
-
-class _ResultadoPageState extends State<ResultadoPage>{
+  const ResultadoPage({Key? key, required this.texto}) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Pontos Turísticos Encontrados")),
+      appBar: AppBar(title: const Text('Pontos Turísticos Encontrados')),
       body: Padding(
-          padding: const EdgeInsets.all(10),
-        child: Center(
-          child: DefaultTextStyle(
-              style: const TextStyle(fontSize: 18, color: Colors.black),
+        padding: const EdgeInsets.all(20.0),
+        child: SingleChildScrollView(
+          child: Center(
+            child: DefaultTextStyle(
+              style: const TextStyle(fontSize: 18.0, color: Colors.black87),
               child: AnimatedTextKit(
-                  animatedTexts: [
-                    TyperAnimatedText(widget.texto, speed: Duration(microseconds: 35)),
-                  ],
-                isRepeatingAnimation: false,
+                animatedTexts: [
+                  TyperAnimatedText(texto, speed: Duration(milliseconds: 35)),
+                ],
                 totalRepeatCount: 1,
-              )
+              ),
+            ),
           ),
         ),
       ),
     );
-
   }
 }
